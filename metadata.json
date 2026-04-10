@@ -1,0 +1,5 @@
+{
+  "name": "FormuLens",
+  "description": "A research analysis engine for formulation R&D. Upload papers and extract insights, contradictions, and gaps.",
+  "requestFramePermissions": []
+}

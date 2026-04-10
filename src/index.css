@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-zinc-800;
+  }
+  body {
+    @apply bg-zinc-950 text-zinc-50 font-sans antialiased;
+  }
+}
+
+/* Markdown Styles */
+.markdown-body {
+  @apply text-zinc-300 leading-relaxed text-base;
+}
+.markdown-body > *:first-child {
+  @apply mt-0;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+  @apply text-zinc-50 font-semibold tracking-tight;
+}
+.markdown-body h1 { @apply text-3xl mt-12 mb-6 pb-4 border-b border-zinc-800/80; }
+.markdown-body h2 { @apply text-2xl mt-10 mb-5 pb-3 border-b border-zinc-800/50; }
+.markdown-body h3 { @apply text-xl mt-8 mb-4; }
+.markdown-body h4 { @apply text-lg mt-6 mb-3; }
+
+.markdown-body p { @apply mb-5 leading-7; }
+
+.markdown-body ul { @apply list-disc pl-6 mb-6 space-y-2; }
+.markdown-body ol { @apply list-decimal pl-6 mb-6 space-y-2; }
+.markdown-body li { @apply pl-1 marker:text-zinc-500; }
+.markdown-body li > ul, .markdown-body li > ol { @apply mt-2 mb-0; }
+
+.markdown-body strong { @apply text-zinc-100 font-semibold; }
+.markdown-body em { @apply text-zinc-400 italic; }
+
+.markdown-body a { @apply text-blue-400 hover:text-blue-300 underline underline-offset-4 decoration-blue-400/30 hover:decoration-blue-400 transition-colors; }
+
+.markdown-body blockquote {
+  @apply border-l-4 border-zinc-700 pl-5 py-2 my-6 text-zinc-400 italic bg-zinc-900/30 rounded-r-lg;
+}
+
+.markdown-body code {
+  @apply bg-zinc-800/60 text-zinc-200 px-1.5 py-0.5 rounded-md font-mono text-[0.85em] border border-zinc-700/50;
+}
+.markdown-body pre {
+  @apply bg-zinc-900/80 border border-zinc-800/80 rounded-xl p-5 mb-6 overflow-x-auto;
+}
+.markdown-body pre code {
+  @apply bg-transparent text-zinc-300 p-0 rounded-none border-none text-sm;
+}
+
+/* Tables */
+.markdown-body .table-wrapper {
+  @apply w-full overflow-x-auto mb-8 rounded-xl border border-zinc-800/60 bg-zinc-900/20 shadow-sm;
+}
+.markdown-body table {
+  @apply w-full text-left border-collapse text-sm;
+}
+.markdown-body thead {
+  @apply bg-zinc-900/80 border-b border-zinc-800/80;
+}
+.markdown-body th {
+  @apply py-3.5 px-4 font-medium text-zinc-200 whitespace-nowrap;
+}
+.markdown-body tbody tr {
+  @apply border-b border-zinc-800/40 hover:bg-zinc-800/50;
+}
+.markdown-body tbody tr:last-child {
+  @apply border-0;
+}
+.markdown-body td {
+  @apply py-3.5 px-4 align-top leading-relaxed;
+}
+
+.markdown-body hr {
+  @apply border-zinc-800/80 my-12;
+}
