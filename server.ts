@@ -6,7 +6,7 @@ import { Buffer } from "node:buffer";
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   // Increase payload limit for base64 files
   app.use(express.json({ limit: '50mb' }));
