@@ -1,9 +1,5 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
 
-export const config = {
-  runtime: 'edge',
-};
-
 export default async function handler(request: Request) {
   if (request.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405 });

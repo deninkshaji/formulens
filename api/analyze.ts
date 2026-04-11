@@ -1,10 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { Buffer } from "node:buffer";
 
-export const config = {
-  runtime: 'edge',
-};
-
 const SYSTEM_PROMPT = `You are FormuLens, a research analysis engine for formulation R&D.
 
 When the user uploads papers and states a topic, confirm the topic and list the papers detected. Then wait for them to say "Run".
