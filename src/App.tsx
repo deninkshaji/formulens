@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Upload, FileText, Play, Loader2, X, Download, Search } from 'lucide-react';
+import { Upload, FileText, Play, Loader2, X, Download, RefreshCw } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { runFormuLensAnalysis } from './lib/gemini';
@@ -17,6 +17,7 @@ const markdownComponents = {
 
 export default function App() {
   const [appState, setAppState] = useState<AppState>('input');
+  const [isInitializing, setIsInitializing] = useState(false);
   const [topic, setTopic] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [results, setResults] = useState('');
@@ -44,7 +45,13 @@ export default function App() {
       return;
     }
     setError('');
-    setAppState('confirm');
+    setIsInitializing(true);
+    
+    // Simulate initialization process for better UX feedback
+    setTimeout(() => {
+      setIsInitializing(false);
+      setAppState('confirm');
+    }, 1500);
   };
 
   const handleRun = async () => {
@@ -125,20 +132,34 @@ export default function App() {
             </div>
 
             <div className="space-y-8 bg-zinc-900/20 border border-zinc-800/40 backdrop-blur-xl rounded-3xl p-8 md:p-10 shadow-2xl">
+              {/* Workflow Instructions */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-8 border-b border-zinc-800/50">
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <div className="w-8 h-8 rounded-full bg-zinc-900/80 border border-zinc-800 flex items-center justify-center text-zinc-400 font-mono text-sm shadow-inner">1</div>
+                  <p className="text-sm font-medium text-zinc-300">Define Topic</p>
+                  <p className="text-xs text-zinc-500">Specify your research focus</p>
+                </div>
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <div className="w-8 h-8 rounded-full bg-zinc-900/80 border border-zinc-800 flex items-center justify-center text-zinc-400 font-mono text-sm shadow-inner">2</div>
+                  <p className="text-sm font-medium text-zinc-300">Upload Papers</p>
+                  <p className="text-xs text-zinc-500">Provide source PDFs/TXTs</p>
+                </div>
+                <div className="flex flex-col items-center text-center space-y-2">
+                  <div className="w-8 h-8 rounded-full bg-zinc-900/80 border border-zinc-800 flex items-center justify-center text-zinc-400 font-mono text-sm shadow-inner">3</div>
+                  <p className="text-sm font-medium text-zinc-300">Extract Insights</p>
+                  <p className="text-xs text-zinc-500">Get a structured analysis</p>
+                </div>
+              </div>
+
               <div className="space-y-3">
                 <label className="text-xs font-bold tracking-widest text-zinc-500 uppercase ml-1">Research Topic</label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Search className="w-5 h-5 text-zinc-600 group-focus-within:text-zinc-400 transition-colors" />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="e.g., Solid lipid nanoparticles for dermal delivery..."
-                    value={topic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    className="w-full bg-zinc-950/50 border border-zinc-800/60 rounded-xl pl-12 pr-4 py-4 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all text-lg shadow-inner"
-                  />
-                </div>
+                <input
+                  type="text"
+                  placeholder="e.g., Solid lipid nanoparticles for dermal delivery..."
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  className="w-full bg-zinc-950/50 border border-zinc-800/60 rounded-xl px-5 py-4 text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all text-lg shadow-inner"
+                />
               </div>
 
               <div className="space-y-3">
@@ -206,9 +227,17 @@ export default function App() {
               <div className="pt-4">
                 <button
                   onClick={handleUploadClick}
-                  className="w-full bg-zinc-100 text-zinc-950 font-bold text-lg rounded-xl px-4 py-4 hover:bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all duration-300 flex items-center justify-center gap-2"
+                  disabled={isInitializing}
+                  className="w-full bg-zinc-100 text-zinc-950 font-bold text-lg rounded-xl px-4 py-4 hover:bg-white hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-90 disabled:cursor-wait"
                 >
-                  Initialize Analysis
+                  {isInitializing ? (
+                    <>
+                      <RefreshCw className="w-5 h-5 animate-spin" />
+                      Processing Papers...
+                    </>
+                  ) : (
+                    'Initialize Analysis'
+                  )}
                 </button>
               </div>
             </div>
@@ -265,9 +294,15 @@ export default function App() {
         {(appState === 'running' || appState === 'results') && (
           <div className="max-w-4xl mx-auto animate-in fade-in duration-500">
             {appState === 'running' && !results && (
-              <div className="flex flex-col items-center justify-center py-24 space-y-4">
-                <Loader2 className="w-8 h-8 text-zinc-400 animate-spin" />
-                <p className="text-zinc-400 font-medium animate-pulse">FormuLens is analyzing papers...</p>
+              <div className="flex flex-col items-center justify-center py-32 space-y-6 animate-in fade-in duration-700">
+                <div className="relative flex items-center justify-center">
+                  <div className="absolute inset-0 blur-2xl bg-zinc-500/20 rounded-full animate-pulse" />
+                  <RefreshCw className="w-12 h-12 text-zinc-400 animate-spin relative z-10" />
+                </div>
+                <div className="space-y-2 text-center">
+                  <p className="text-zinc-200 font-medium text-lg tracking-widest uppercase">Engine Running</p>
+                  <p className="text-zinc-500 text-sm animate-pulse">Cross-referencing papers and extracting formulation insights...</p>
+                </div>
               </div>
             )}
 
