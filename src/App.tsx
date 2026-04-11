@@ -123,10 +123,10 @@ export default function App() {
         {appState === 'input' && (
           <div className="max-w-3xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="space-y-4 text-center mb-12 mt-8">
-              <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-zinc-50">
+              <h1 className="text-6xl md:text-8xl font-bold font-[Georgia] tracking-tighter text-zinc-50">
                 FORMULENS
               </h1>
-              <p className="text-xs md:text-sm tracking-[0.3em] text-zinc-400 uppercase font-medium">
+              <p className="text-xs md:text-sm tracking-[0.3em] text-zinc-400 uppercase font-medium italic">
                 Research Analysis Engine
               </p>
             </div>
@@ -259,11 +259,11 @@ export default function App() {
 
                 <div className="space-y-3">
                   <p className="text-sm text-zinc-500 uppercase tracking-wider font-medium">Detected Papers ({files.length})</p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     {files.map((file, i) => (
-                      <li key={i} className="flex items-center gap-3 text-zinc-300">
-                        <FileText className="w-4 h-4 text-zinc-500" />
-                        {file.name}
+                      <li key={i} className="flex items-start gap-3 text-zinc-300 leading-snug">
+                        <FileText className="w-4 h-4 text-zinc-500 shrink-0 mt-0.5" />
+                        <span className="break-words">{file.name}</span>
                       </li>
                     ))}
                   </ul>
