@@ -302,6 +302,7 @@ export default function App() {
                 <div className="space-y-2 text-center">
                   <p className="text-zinc-200 font-medium text-lg tracking-widest uppercase">Engine Running</p>
                   <p className="text-zinc-500 text-sm animate-pulse">Cross-referencing papers and extracting formulation insights...</p>
+                  <p className="text-zinc-600 text-xs mt-4 max-w-xs mx-auto">Note: Analyzing multiple research papers is a complex task. This may take 1-2 minutes depending on file size.</p>
                 </div>
               </div>
             )}
