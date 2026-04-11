@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Upload, FileText, Play, Loader2, X, Download, RefreshCw } from 'lucide-react';
+import { Upload, FileText, Play, Loader2, X, Download, RefreshCw, Mail } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { runFormuLensAnalysis } from './lib/gemini';
@@ -92,10 +92,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800">
+    <div className="min-h-screen bg-zinc-950 text-zinc-50 font-sans selection:bg-zinc-800 flex flex-col">
       {/* Header */}
       <header className="border-b border-zinc-800/50 bg-zinc-950/50 backdrop-blur-md sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 text-zinc-100 font-bold tracking-tight">
             {appState !== 'input' && <span>FORMULENS</span>}
           </div>
@@ -119,11 +119,11 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-12">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {appState === 'input' && (
           <div className="max-w-3xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="space-y-4 text-center mb-12 mt-8">
-              <h1 className="text-6xl md:text-8xl font-bold font-[Georgia] tracking-tighter text-zinc-50">
+              <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold font-[Georgia] tracking-tighter text-zinc-50 break-words">
                 FORMULENS
               </h1>
               <p className="text-xs md:text-sm tracking-[0.3em] text-zinc-400 uppercase font-medium italic">
@@ -131,9 +131,9 @@ export default function App() {
               </p>
             </div>
 
-            <div className="space-y-8 bg-zinc-900/20 border border-zinc-800/40 backdrop-blur-xl rounded-3xl p-8 md:p-10 shadow-2xl">
+            <div className="space-y-6 sm:space-y-8 bg-zinc-900/20 border border-zinc-800/40 backdrop-blur-xl rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl">
               {/* Workflow Instructions */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-8 border-b border-zinc-800/50">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pb-6 sm:pb-8 border-b border-zinc-800/50">
                 <div className="flex flex-col items-center text-center space-y-2">
                   <div className="w-8 h-8 rounded-full bg-zinc-900/80 border border-zinc-800 flex items-center justify-center text-zinc-400 font-mono text-sm shadow-inner">1</div>
                   <p className="text-sm font-medium text-zinc-300">Define Topic</p>
@@ -170,7 +170,7 @@ export default function App() {
                 
                 <div 
                   onClick={() => fileInputRef.current?.click()}
-                  className="border border-dashed border-zinc-700/50 bg-zinc-950/20 hover:bg-zinc-900/50 hover:border-zinc-600 transition-all duration-300 rounded-2xl p-10 text-center cursor-pointer group flex flex-col items-center justify-center gap-4"
+                  className="border border-dashed border-zinc-700/50 bg-zinc-950/20 hover:bg-zinc-900/50 hover:border-zinc-600 transition-all duration-300 rounded-2xl p-6 sm:p-10 text-center cursor-pointer group flex flex-col items-center justify-center gap-4"
                 >
                   <div className="w-14 h-14 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:scale-110 group-hover:border-zinc-700 transition-all duration-300 shadow-lg">
                     <Upload className="w-6 h-6 text-zinc-400 group-hover:text-zinc-200 transition-colors" />
@@ -236,7 +236,7 @@ export default function App() {
                       Processing Papers...
                     </>
                   ) : (
-                    'Initialize Analysis'
+                    'Run Full Analysis'
                   )}
                 </button>
               </div>
@@ -246,7 +246,7 @@ export default function App() {
 
         {appState === 'confirm' && (
           <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-8 space-y-8">
+            <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-5 sm:p-8 space-y-6 sm:space-y-8">
               <div className="space-y-4">
                 <h2 className="text-xl font-semibold text-zinc-100 border-b border-zinc-800 pb-4">
                   Confirm Analysis
@@ -308,8 +308,8 @@ export default function App() {
             )}
 
             {results && (
-              <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-2xl p-8 md:p-12 shadow-2xl">
-                <div className="markdown-body">
+              <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-2xl p-5 sm:p-8 md:p-12 shadow-2xl">
+                <div className="markdown-body overflow-x-auto">
                   <ReactMarkdown 
                     remarkPlugins={[remarkGfm]}
                     components={markdownComponents}
@@ -328,6 +328,17 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <footer className="py-8 mt-auto flex justify-center">
+        <a 
+          href="mailto:deninkshaji@gmail.com"
+          className="inline-flex items-center gap-2 text-zinc-600 hover:text-zinc-200 transition-colors duration-300 group"
+        >
+          <span className="text-sm font-medium tracking-wide">Contact</span>
+          <Mail className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+        </a>
+      </footer>
     </div>
   );
 }
