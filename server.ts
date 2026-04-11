@@ -2,6 +2,7 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import path from "path";
+import { Buffer } from "node:buffer";
 
 async function startServer() {
   const app = express();
@@ -164,12 +165,24 @@ Rules:
       parts.push({ text: `Topic: ${topic}\n\nHere are the papers. Run.` });
 
       for (const file of files) {
-        parts.push({
-          inlineData: {
-            data: file.data,
-            mimeType: file.mimeType,
-          },
-        });
+        if (file.url) {
+          const fileRes = await fetch(file.url);
+          const arrayBuffer = await fileRes.arrayBuffer();
+          const base64 = Buffer.from(arrayBuffer).toString('base64');
+          parts.push({
+            inlineData: {
+              data: base64,
+              mimeType: file.mimeType,
+            },
+          });
+        } else if (file.data) {
+          parts.push({
+            inlineData: {
+              data: file.data,
+              mimeType: file.mimeType,
+            },
+          });
+        }
       }
 
       const responseStream = await ai.models.generateContentStream({
